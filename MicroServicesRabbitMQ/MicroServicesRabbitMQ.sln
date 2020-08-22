@@ -10,6 +10,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra.Bus", "Infra.Bus", "{5B00DCA7-E0A0-4F25-A81E-3DE11E7F9388}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra.IoC", "Infra.IoC", "{8A24BAD5-9C64-40A8-8888-977432195A04}"
+	ProjectSection(SolutionItems) = preProject
+		DependencyContainer.cs = DependencyContainer.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F3FB37A8-ADE7-481F-BFCE-DE2A8E33899D}"
 EndProject
