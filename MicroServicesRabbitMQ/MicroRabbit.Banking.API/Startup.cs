@@ -36,6 +36,7 @@ namespace MicroRabbit.Banking.API
             {
                 object p = options.UseSqlServer(Configuration.GetConnectionString("BankingDbConnection"));
             });
+
             services.AddControllers();
             services.AddMvc();
             
