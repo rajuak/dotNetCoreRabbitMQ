@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using MicroRabbit.Infra.IoC;
 using MicroRabbit.Transfer.Data.Context;
+using MicroRabbit.Transfer.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,21 +23,27 @@ namespace MicroRabbit.Transfer.API
 {
     public class Startup
     {
+       
+        //private readonly IConfiguration _configuration;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IConfiguration>(Configuration);
+
             services.AddDbContext<TransferDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("TransferDbConnection"));
+                options.UseSqlServer("Server=MEL-003990;Database=TransferDB;Trusted_Connection=True;");
             });
-            services.AddScoped<DbContext, TransferDbContext>();
+            Console.WriteLine(Configuration.GetConnectionString("TransferDbConnection"));
+            
+            //services.AddScoped<DbContext, TransferDbContext>();
+            
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddMvc();
@@ -48,13 +55,22 @@ namespace MicroRabbit.Transfer.API
 
             services.AddMediatR(typeof(Startup));
 
-            RegisterServices(services);
+           // RegisterServices(services);
+            
+            RegisterTransferDbContext(services);
         }
 
-        private void RegisterServices(IServiceCollection services)
+        
+
+        private void RegisterTransferDbContext(IServiceCollection services)
         {
-            DependencyContainer.RegisterServices(services);
+            TransferDependencyContainer.RegisterTransferDbContext(services);
         }
+
+        //private void RegisterServices(IServiceCollection services)
+        //{
+        //    DependencyContainer.RegisterServices(services);
+        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.Swagger;
 using Microsoft.OpenApi.Models;
+using MicroRabbit.Banking.IoC;
 
 namespace MicroRabbit.Banking.API
 {
@@ -48,8 +49,13 @@ namespace MicroRabbit.Banking.API
             services.AddMediatR(typeof(Startup));
             
             RegisterServices(services);
+            RegisterBankingDbContext(services);
         }
 
+        private void RegisterBankingDbContext(IServiceCollection services)
+        {
+            BankingDependencyContainer.RegisterBankingDbContext(services);
+        }
         private void RegisterServices(IServiceCollection services)
         {
             DependencyContainer.RegisterServices(services);
